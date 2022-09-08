@@ -1,6 +1,6 @@
 package com.atguigu.sparseArray;
 
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 /**
  * 将一个二维数组 转化为稀疏数组 存到磁盘中 再还原为二维数组
@@ -91,17 +91,60 @@ public class SparseArray {
             }
             System.out.println();
         }
+
+
+        //=================================================================
+        //稀疏序列化
+        sparseSerialize(sparseArr);
+
+        //稀疏反序列化
+        int[][] arr = (int[][])sparseDSerialize(resourcePath);
+        System.out.println("最后得到类class类型"+arr.getClass().getName());
+
     }
 
     /**
      * 稀疏数组的序列化与反序列化
      */
-    public final static String resourcePath = "E:";
+    public final static String resourcePath = "E:\\Learn\\file";
 
+    //序列化工具类
     private static void sparseSerialize(int[][] array){
-        ObjectOutputStream oos = null;
 
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(resourcePath));
+            oos.writeObject(array);
+            oos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                oos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
+    //反序列化工具类
+    private static Object sparseDSerialize(String path){
+
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(resourcePath));
+            Object arr = ois.readObject();
+            return arr;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ois.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
 }
