@@ -4,7 +4,7 @@ public class SingleLinkedListDemo {
     public static void main(String[] args) {
 
         //先创建节点
-        HeroNode hero1 = new HeroNode(1, "松江", "及时雨");
+        HeroNode hero1 = new HeroNode(1, "宋江", "及时雨");
         HeroNode hero2 = new HeroNode(2, "卢俊义", "玉麒麟");
         HeroNode hero3 = new HeroNode(3, "吴用", "智多星");
         HeroNode hero4 = new HeroNode(4, "林冲", "豹子头");
@@ -22,7 +22,6 @@ public class SingleLinkedListDemo {
         singleLinkedList.addByOrder(hero4);
         singleLinkedList.addByOrder(hero2);
         singleLinkedList.addByOrder(hero3);
-        singleLinkedList.addByOrder(hero3);
 
         //修改前
         singleLinkedList.list();
@@ -38,16 +37,49 @@ public class SingleLinkedListDemo {
 //        System.out.println("删除后链表----------");
 
         //求单链表中有效节点的个数
-        System.out.println(getLength(singleLinkedList.getHead()));
+//        System.out.println(getLength(singleLinkedList.getHead()));
+
+
+
+        //得到倒数第K个节点
+//        HeroNode res = findLastIndexNode(singleLinkedList.getHead(), 2);
+//        System.out.println(res);
+
+        //反转单链表
+        reverseList(singleLinkedList.getHead());
+        System.out.println("反转后");
 
         //显示
         singleLinkedList.list();
 
-        //得到倒数第K个节点
-        HeroNode res = findLastIndexNode(singleLinkedList.getHead(), 2);
-        System.out.println(res);
+    }
 
+    /**
+     * 将单链表进行反转
+     */
+    public static void reverseList(HeroNode head) {
+        //如果当前链表为空，或者只有一个节点，无需反转直接返回
+        if (head.next == null || head.next.next == null) {
+            return;
+        }
+        //定义一个辅助变量,帮助我们遍历原来的链表
+        HeroNode cur = head.next;
+        //指向当前节点[cur]的下一个节点
+        HeroNode curNext = null;
+        //先定义一个头节点reverseHead
+        HeroNode reverseHead = new HeroNode(0, "", "");
 
+        //遍历原链表，每遍历一个节点，就将其  --取出--  ，并放在新的链表reverseHead的最前端
+        while (cur != null) {
+            curNext = cur.next;//先暂时保存当前节点的下一个节点
+
+            cur.next = reverseHead.next;//将cur的下一个节点指向新链表的最前端
+            reverseHead.next = cur;
+
+            cur = curNext; //todo 让cur后移 这步没写出来
+        }
+        //将原链表头指向新生成的链表
+        head.next = reverseHead.next;
     }
 
     /**
