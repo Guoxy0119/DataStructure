@@ -1,4 +1,4 @@
-package com.atguigu.sparseArray;
+package com.atguigu.video.sparseArray;
 
 import java.io.*;
 

@@ -1,4 +1,4 @@
-package com.atguigu.linkedList;
+package com.atguigu.video.linkedList;
 
 /**
  * 约瑟夫问题

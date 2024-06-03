@@ -1,4 +1,4 @@
-package com.atguigu.sort;
+package com.atguigu.video.sort;
 
 /**
  * 冒泡排序
