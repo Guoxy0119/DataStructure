@@ -3,7 +3,8 @@ package com.atguigu.video.stack;
 public class Calculator {
     public static void main(String[] args) {
         //根据前面思路，完成表达式的运算
-        String expression = "300+2*6-2";// 如何处理多位数的问题？
+//        String expression = "300+2*6-2";// 如何处理多位数的问题？
+        String expression = "7-2*3+1";//这个有问题！算出来为0，有bug因为栈是后进先出，数学运算同级是从左到右，
         //创建两个栈，数栈，一个符号栈
         ArrayStack2 numStack = new ArrayStack2(10);
         ArrayStack2 operStack = new ArrayStack2(10);
