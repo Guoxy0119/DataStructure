@@ -10,12 +10,14 @@ public class Queen {
     //定义数组array，保存皇后放置位置的结果，比如arr = {0,4,7,5,2,6,1,3}
     int[] array = new int[max];
     static int count = 0;
+    static int judgeCount = 0;
 
 
     public static void main(String[] args) {
         Queen queen = new Queen();
         queen.check(0);
         System.out.printf("一共有%d种解法", count);
+        System.out.printf("一共判断冲突的次数%d次", judgeCount);
 
     }
 
@@ -50,6 +52,7 @@ public class Queen {
      * @return true表示不冲突
      */
     private boolean judge(int n) {
+        judgeCount++;
         for (int i = 0; i < n; i++) {
             //说明
             //1. array[i] == array[n] 表示判断第n个皇后是否和前面的n-1个皇后在同一列
