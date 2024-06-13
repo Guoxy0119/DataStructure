@@ -1,5 +1,8 @@
 package com.atguigu.video.recursion;
 
+/**
+ * 迷宫回溯问题
+ */
 public class MiGong {
     public static void main(String[] args) {
 
