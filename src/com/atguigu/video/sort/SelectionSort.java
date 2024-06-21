@@ -1,5 +1,7 @@
 package com.atguigu.video.sort;
 
+import java.util.Arrays;
+
 /**
  * 选择排序
  * 时间复杂度 big O(n^2)
@@ -15,10 +17,12 @@ public class SelectionSort {
 
         for (int i = 0; i < arr.length - 1; i++) {
             int minIndex = i;
-            for (int j = 0; j < arr.length; j++) {
+            for (int j = i + 1; j < arr.length; j++) {
                 minIndex = arr[j] < arr[minIndex] ? j : minIndex;
             }
             swap(arr, i, minIndex);
+            System.out.println("第" + (i + 1) + "趟排序后的数组");
+            System.out.println(Arrays.toString(arr));
         }
 
     }
@@ -30,6 +34,8 @@ public class SelectionSort {
     }
 
     public static void main(String[] args) {
+        int[] arr = {101, 34, 119, 1};
+        selectionSort(arr);
 
     }
 
