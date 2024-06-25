@@ -36,9 +36,11 @@ public class InsertSort {
 
     public static void insertSort(int[] arr) {
 
+        int insertVal = 0;
+        int insertIndex = 0;
         for (int i = 1; i < arr.length; i++) {
-            int insertVal = arr[i]; //定义待插入的数
-            int insertIndex = i - 1; // 即arr[1]的前面的这个数的下标，待插入数要与前边那个数比较
+            insertVal = arr[i]; //定义待插入的数
+            insertIndex = i - 1; // 即arr[1]的前面的这个数的下标，待插入数要与前边那个数比较
 
             /*
              * 给inserVal找到插入的位置
