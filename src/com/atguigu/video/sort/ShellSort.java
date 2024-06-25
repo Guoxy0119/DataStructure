@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * 希尔排序
  * 1. 对有序序列在插入时使用交换法
- * 2. 对有序序列在插入时使用移动法
+ * 2. 对有序序列在插入时使用移动法（更快）
  */
 public class ShellSort {
 
@@ -26,12 +26,40 @@ public class ShellSort {
         String date1Str = sdf.format(date1);
         System.out.println("排序前的时间是=" + date1Str);
 
-        shellSort(arr);
+        shellSort2(arr);
 
         System.out.println("排序后");
         Date date2 = new Date();
         String date2Str = sdf.format(date2);
         System.out.println("排序前的时间是=" + date2Str);
+
+//        System.out.println(Arrays.toString(arr));
+
+    }
+
+
+    //对交换式的希尔排序进行优化 -> 移位法
+    public static void shellSort2(int[] arr) {
+
+        int temp = 0;
+        // 增量gap, 并逐步缩小增量
+        for (int gap = arr.length / 2; gap > 0; gap /= 2) {
+            //从第gap个元素，逐个对其所在的组进行直接插入排序
+            for (int i = gap; i < arr.length; i++) {
+                int j = i;
+                temp = arr[j];
+
+                while (j - gap >= 0 && temp < arr[j - gap]) {
+                    //移动
+                    arr[j] = arr[j - gap];
+                    j -= gap;
+                }
+                //当退出while后，就给temp找到插入的位置
+                arr[j] = temp;
+
+            }
+        }
+
     }
 
 
