@@ -46,6 +46,11 @@ public class Order implements Delayed {
         this.taskContent = taskContent;
     }
 
+    public Order(long triggerTime, String taskContent, TimeUnit unit) {
+        this.triggerTime = System.currentTimeMillis() + (triggerTime > 0 ? unit.toMillis(triggerTime) : 0);
+        this.taskContent = taskContent;
+    }
+
     public Long getTriggerTime() {
         return triggerTime;
     }
