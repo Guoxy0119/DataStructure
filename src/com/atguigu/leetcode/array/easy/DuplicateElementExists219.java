@@ -38,7 +38,7 @@ public class DuplicateElementExists219 {
 
         HashMap<Integer, Integer> map = new HashMap<>();
 
-        int index = 0;
+        int index = 2;
         for (int num : nums) {
 
             Integer i = map.get(num);
