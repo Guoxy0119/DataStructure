@@ -42,6 +42,7 @@ public class DuplicateElementExists219 {
         for (int num : nums) {
 
             Integer i = map.get(num);
+            System.out.println("master...");
 
 
         }
