@@ -6,7 +6,7 @@ public class lc31 {
 
     public static void main(String[] args) {
 
-        int[] nums = {1, 2, 3};
+        int[] nums = {1, 2};
         nextPermutation(nums);
         System.out.println(Arrays.toString(nums));
 
@@ -24,7 +24,7 @@ public class lc31 {
         }
 
         // 如果找到了，进入第二步；否则跳过第二步，翻转整个数组
-        if (i > 0) {
+        if (i >= 0) {
             // 第二步：从右向左找到第一个大于 nums[i] 的数 nums[j]
             int j = n - 1;
             while (j >= 0 && nums[j] <= nums[i]) {
