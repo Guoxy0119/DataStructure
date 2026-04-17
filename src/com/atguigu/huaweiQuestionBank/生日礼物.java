@@ -52,6 +52,11 @@ public class 生日礼物 {
         String[] names = name.split(" ");
         String[] birthdays = birthday.split(" ");
 
+//        int month = 5;
+//        String[] names = {"Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Helen"};
+//        String[] birthdays = {"1985/5/10", "1990/10/11", "1995/10/11", "2000/11/10", "2005/05/01", "2010/10/13", "2015/10/14", "2020/5/2"};
+
+
         int res = calGiftNum(month, names, birthdays);
         System.out.println(res);
     }

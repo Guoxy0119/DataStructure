@@ -130,6 +130,12 @@ public class 配置操作失败 {
     }
 
     public static void main(String[] args) {
+
+        /**
+         * add_rule rule_id=1
+         * mod_rule rule_id=1 rule_index=10
+         * del_rule rule_id=1
+         */
         Scanner sc = new Scanner(System.in);
         List<String> cmd = new ArrayList<>();
         while (sc.hasNextLine()) {
