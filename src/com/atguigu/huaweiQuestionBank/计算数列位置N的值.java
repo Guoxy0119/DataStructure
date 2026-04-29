@@ -1,4 +1,5 @@
 package com.atguigu.huaweiQuestionBank;
+
 import java.util.*;
 
 
@@ -19,56 +20,70 @@ import java.util.*;
  */
 public class 计算数列位置N的值 {
 
+    /**
+     * m= 4; n=8;
+     * 1,2,3,4,  3,5,6,3,  9,6
+     */
 
 
-        public static int positionValue(int m, int n) {
-            // 小于情况就是n
-            if (n <= m) {
-                return n;
-            }
-
-            int[] num = new int[n + 1];
-
-            // 初始化
-            for (int i = 1; i <= m; i++) {
-                num[i] = i;
-            }
-
-            // 数据量小->递推
-            for (int i = m + 1; i <= n; i++) {
-                int mx = Integer.MIN_VALUE, mn = Integer.MAX_VALUE;
-                HashSet<Integer> set = new HashSet<>();
-                boolean dupFlag = false;
-
-                for (int j = i - m; j < i; j++) {
-                    if (set.contains(num[j])) {
-                        dupFlag = true;
-                    }
-                    set.add(num[j]);
-
-                    mx = Math.max(mx, num[j]);
-                    mn = Math.min(mn, num[j]);
-                }
-
-                if (dupFlag) {
-                    num[i] = mx + mn;
-                } else {
-                    num[i] = mx - mn;
-                }
-            }
-
-            return num[n];
+    public static int positionValue(int m, int n) {
+        if (n <= m) {
+            return n;
         }
 
-        public static void main(String[] args) {
-            Scanner sc = new Scanner(System.in);
-            String input = sc.nextLine();
-            String[] parts = input.split(",");
-
-            int m = Integer.parseInt(parts[0]);
-            int n = Integer.parseInt(parts[1]);
-
-            System.out.println(positionValue(m, n));
+        int result = 0;
+        Deque<Integer> queue = new LinkedList<>();
+        for (int i = 1; i <= m; i++) {
+            queue.add(i);
         }
+
+        for (int i = 0; i < n - m; i++) {
+/*            int max = Collections.max(queue);
+            int min = Collections.min(queue);
+            HashSet<Integer> set = new HashSet<>();
+            boolean exist = false;
+            for (Integer integer : queue) {
+                if (set.contains(integer)) {
+                    exist = true;
+                }
+                set.add(integer);
+                max = Math.max(max, integer);
+                min = Math.min(min, integer);
+            }
+
+            if (exist) {
+                queue.add(max + min);
+            } else {
+                queue.add(max - min);
+            }
+            queue.poll();*/
+
+
+            // 简化代码
+            int max = Collections.max(queue);
+            int min = Collections.min(queue);
+            HashSet<Integer> set = new HashSet<>(queue);
+            boolean exist = set.size() < m;
+            int next = exist ? max + min : max - min;
+            queue.add(next);
+            queue.poll();
+        }
+        result = queue.getLast();
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+        String[] parts = input.split(",");
+
+//        int m = Integer.parseInt(parts[0]);
+//        int n = Integer.parseInt(parts[1]);
+
+        int m = 4;
+        int n = 7;
+
+        System.out.println(positionValue(m, n));
+    }
 
 }

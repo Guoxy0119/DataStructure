@@ -3,6 +3,7 @@ package com.atguigu.huaweiQuestionBank;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 题目一：API请求日志去重分析 100分
@@ -58,34 +59,41 @@ public class API日志去重分析 {
 
     public static void main(String[] args) {
 
-        String[] paths = {"asd","sf","asd"};
-        int[] responseTimes = {12,34,45};
+        String[] paths = {"asd", "sf", "asd"};
+        int[] responseTimes = {12, 34, 45};
 
         int[][] ints = mergeLogs(paths, responseTimes);
         System.out.println(Arrays.deepToString(ints));
     }
 
     public static int[][] mergeLogs(String[] paths, int[] responseTimes) {
-        List<int[]> result = new ArrayList<>();
-        if (paths.length == 0) return new int[0][3];
 
-        int start = 0;
-        String currentPath = paths[0];
-        int sum = responseTimes[0], count = 1;
-
-        for (int i = 1; i < paths.length; i++) {
-            if (paths[i].equals(currentPath)) {
-                sum += responseTimes[i];
-                count++;
-            } else {
-                result.add(new int[]{start, count, sum / count});
-                start = i;
-                currentPath = paths[i];
-                sum = responseTimes[i];
-                count = 1;
-            }
+        if (paths == null || paths.length == 0) {
+            return new int[0][];
         }
-        result.add(new int[]{start, count, sum / count});
+
+        List<int[]> result = new ArrayList<>();
+
+        String curPath = paths[0];
+        int curTime = responseTimes[0];
+        int curCount = 1;
+        int index = 0;
+        for (int i = 1; i < paths.length; i++) {
+            if (Objects.equals(paths[i], curPath)) {
+                curTime = curTime + responseTimes[i];
+                curCount++;
+                continue;
+            }
+
+            result.add(new int[]{index, curCount, curTime / curCount});
+            index = i;
+            curPath = paths[i];
+            curTime = responseTimes[i];
+            curCount = 1;
+        }
+
+        // 添加最后一组
+        result.add(new int[]{index, curCount, curTime / curCount});
         return result.toArray(new int[0][]);
     }
 

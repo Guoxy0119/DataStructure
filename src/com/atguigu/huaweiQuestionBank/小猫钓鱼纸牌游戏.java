@@ -2,7 +2,6 @@ package com.atguigu.huaweiQuestionBank;
 
 import java.util.*;
 
-
 /**
  * 题目描述：有两名玩家甲和乙，他们玩一种“小猫钓鱼”扑克牌游戏。扑克牌为A、2、3、…J、Q、K，不考虑花色都用1-13来表示，然后给甲、乙两人各发n张牌，按给定顺序排成队列，这些牌背面朝上，正面朝下放置，队列的第一个元素是背面的第一张牌。
  * 游戏规则如下
@@ -41,87 +40,60 @@ public class 小猫钓鱼纸牌游戏 {
 
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
         Queue<Integer> aCards = new LinkedList<>();
         Queue<Integer> bCards = new LinkedList<>();
-        String[] aInput = sc.nextLine().split(" ");
-        String[] bInput = sc.nextLine().split(" ");
-        for (String s : aInput) aCards.add(Integer.parseInt(s));
-        for (String s : bInput) bCards.add(Integer.parseInt(s));
 
-        List<Integer> table = new ArrayList<>();
-        int maxSteps = 10000;
-        int steps = 0;
-        char currentPlayer = 'A';
+        int poker = poker(aCards, bCards);
+        System.out.println(poker);
+    }
 
-        while (steps <= maxSteps) {
-            if (aCards.isEmpty() || bCards.isEmpty()) break;
-            steps++;
-            if (currentPlayer == 'A') {
-                int card = aCards.poll();
-                table.add(card);
-                if (card == 11 && table.size() > 1) {
-                    Collections.reverse(table);
-                    aCards.addAll(table);
-                    table.clear();
-                    currentPlayer = 'A';
-                } else {
-                    int found = -1;
-                    for (int i = 0; i < table.size() - 1; i++) {
-                        if (table.get(i) == card) {
-                            found = i;
-                            break;
-                        }
-                    }
-                    if (found != -1) {
-                        List<Integer> collected = table.subList(found, table.size());
-                        Collections.reverse(collected);
-                        aCards.addAll(collected);
-                        table = table.subList(0, found);
-                        currentPlayer = 'A';
-                    } else {
-                        currentPlayer = 'B';
-                    }
+
+    public static int poker(Queue<Integer> aCards, Queue<Integer> bCards) {
+        Deque<Integer> table = new ArrayDeque<>();  // 桌面（栈顶为最上方）
+        boolean isATurn = true;  // 甲先出
+        int totalPlays = 0;
+        final int MAX_PLAYS = 10000;
+
+        while (totalPlays < MAX_PLAYS) {
+            // 检查当前玩家是否有牌
+            if (isATurn && aCards.isEmpty()) return bCards.peek();
+            if (!isATurn && bCards.isEmpty()) return aCards.peek();
+
+            // 当前玩家出牌
+            int card = isATurn ? aCards.poll() : bCards.poll();
+            boolean trigger = false;
+
+            // 检查收牌条件
+            if (card == 11 && !table.isEmpty()) {
+                // J且桌面有牌：收走全部桌面牌 + 当前J
+                List<Integer> won = new ArrayList<>(table);
+                won.add(card);
+                Collections.reverse(won);  // 翻面
+                (isATurn ? aCards : bCards).addAll(won);
+                table.clear();
+                trigger = true;
+            } else if (table.contains(card)) {
+                // 点数相同：收走两张相同牌及其之间的牌
+                List<Integer> won = new ArrayList<>();
+                while (true) {
+                    int top = table.removeLast();
+                    won.add(top);
+                    if (top == card) break;
                 }
+                won.add(card);
+                Collections.reverse(won);
+                (isATurn ? aCards : bCards).addAll(won);
+                trigger = true;
             } else {
-                int card = bCards.poll();
-                table.add(card);
-                if (card == 11 && table.size() > 1) {
-                    Collections.reverse(table);
-                    bCards.addAll(table);
-                    table.clear();
-                    currentPlayer = 'B';
-                } else {
-                    int found = -1;
-                    for (int i = 0; i < table.size() - 1; i++) {
-                        if (table.get(i) == card) {
-                            found = i;
-                            break;
-                        }
-                    }
-                    if (found != -1) {
-                        List<Integer> collected = table.subList(found, table.size());
-                        Collections.reverse(collected);
-                        bCards.addAll(collected);
-                        table = table.subList(0, found);
-                        currentPlayer = 'B';
-                    } else {
-                        currentPlayer = 'A';
-                    }
-                }
+                // 普通出牌：牌上桌
+                table.addLast(card);
             }
-        }
 
-        if (steps > maxSteps) {
-            System.out.println(table.isEmpty() ? 0 : table.get(table.size() - 1));
-        } else {
-            if (aCards.isEmpty() && bCards.isEmpty()) {
-                System.out.println(table.isEmpty() ? 0 : table.get(table.size() - 1));
-            } else if (aCards.isEmpty()) {
-                System.out.println(bCards.peek());
-            } else {
-                System.out.println(aCards.peek());
-            }
+            totalPlays++;
+            // 如果未触发收牌，切换玩家；否则继续当前玩家
+            if (!trigger) isATurn = !isATurn;
         }
+        // 超时平局
+        return table.isEmpty() ? 0 : table.getLast();
     }
 }
